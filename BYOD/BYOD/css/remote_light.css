@@ -1,0 +1,57 @@
+/* 
+    Created on : 26 mai 2014, 16:16:58
+    Author     : klermor
+*/
+body{
+    background-color: #eee;
+    color : #44B4CE;
+    margin: 10px;
+    padding: 20px;
+}
+h1 {
+    color : #7A3A3A; /* gold; */
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+
+
+progress {}
+    /* ici les styles généraux */
+
+progress::-webkit-progress-bar { 
+    /* ici les styles généraux pour Webkit */
+}
+progress::-webkit-progress-value {  
+    /* styles de barre d'avancement pour Webkit */
+}  
+progress::-moz-progress-bar { 
+    /* styles de barre d'avancement pour Firefox */
+}
+
+.pure-table{
+    color:#000000;
+}

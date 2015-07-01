@@ -1,0 +1,133 @@
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7 avr. 2015, 13:51:19
+    Author     : bruno
+*/
+
+section#traces {
+    // pour la prod visibility : hidden;
+    visibility : visible; 
+    display : block;
+    font-size : 0.8em;
+    width : 40%;
+    position : absolute;
+    bottom : 5px;
+    right: 5px;
+    border : dashed black 1px;
+    
+    
+}
+
+
+
+
+
+nav {
+font-size:25px;
+line-height:3.5em;
+width:500px;
+background-image:url(img/barcelone01.jpg);
+background-position:right;
+padding:0;
+padding-top:0;
+padding-bottom:0;
+// border-radius:1.0em;
+text-align:center;
+min-height : 500px;
+
+}
+
+article {
+	background-color:#D7D7D7;
+	color:#5f5f5f;
+        margin:2px;
+        min-height:2em;
+        width:40%;
+	}
+
+article div{
+        font-size:0.5em;
+        line-height:1.2em;
+	padding-left:1em;
+	padding-right:1em;
+        padding-top:1.7em;
+        padding-bottom:0.5em;
+	}
+
+
+label {
+	margin-left : 20px;
+        width : 340px;
+        opacity: 0.6;
+        background-color:#527ACC;
+	color:white;
+	padding-left:0.5em;
+	padding-right:340px;
+        padding-top:0.8em;
+        padding-bottom:0.8em;
+	border : solid 3px #B8B8AC;
+	// border-radius:0.8em;
+	}
+
+label.val {
+	margin-left : 20px;
+        opacity: 0.9;
+        background-color:#527ACC;
+	color:white;
+	padding-left:0.5em;
+	padding-right:0.5em;
+        padding-top:0.6em;
+        padding-bottom:0.6em;
+	border : solid 3px #B8B8AC;
+	// border-radius:0.8em;
+	}
+        
+label:hover {
+	border-color : #DFDFDF;
+	}
+
+label#compteur {
+	width:15em;
+	}	
+	
+input[type="radio"] {
+	display:none;
+	
+}
+	
+input[type="checkbox"] {
+	display:none;
+	
+}
+	
+input[type="submit"] {
+	display:none;
+	
+}
+	
+input[type="reset"] {
+	display:none;
+}	
+
+input[type="radio"]:checked + label {
+	background-color:#990000;
+	
+}
+	
+input[type="checkbox"]:checked + label {
+	background-color:#009900;
+	
+}
+
+input[type="reset"] + label {
+    background-color:#bc0737;
+	}
+
+input[type="submit"] + label {
+    line-height:3.5em;
+	}
