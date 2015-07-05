@@ -29,25 +29,28 @@ section#traces {
 
 nav {
 font-size:25px;
-line-height:3.5em;
+line-height:3.05em;
 width:500px;
-background-image:url(img/barcelone01.jpg);
+background-image:url(../img/Casa-Batllo.jpg);
 background-position:right;
 padding:0;
 padding-top:0;
 padding-bottom:0;
 // border-radius:1.0em;
 text-align:center;
-min-height : 500px;
+min-height : 700px;
+margin-left : auto;
+margin-right : auto;
 
 }
 
 article {
-	background-color:#D7D7D7;
+	background-color:#FFF;
+        opacity: 0.75;
 	color:#5f5f5f;
         margin:2px;
         min-height:2em;
-        width:40%;
+        width:45%;
 	}
 
 article div{
@@ -61,13 +64,13 @@ article div{
 
 
 label {
-	margin-left : 20px;
-        width : 340px;
-        opacity: 0.6;
-        background-color:#527ACC;
+	// margin-left : 15px;
+        // width : 440px;
+        opacity: 0.75;
+        background-color:#FFF;
 	color:white;
 	padding-left:0.5em;
-	padding-right:340px;
+	padding-right:440px;
         padding-top:0.8em;
         padding-bottom:0.8em;
 	border : solid 3px #B8B8AC;
@@ -76,8 +79,8 @@ label {
 
 label.val {
 	margin-left : 20px;
-        opacity: 0.9;
-        background-color:#527ACC;
+        opacity: 0.7;
+        // background-color:#527ACC;
 	color:white;
 	padding-left:0.5em;
 	padding-right:0.5em;
@@ -86,9 +89,46 @@ label.val {
 	border : solid 3px #B8B8AC;
 	// border-radius:0.8em;
 	}
-        
+
+label#chxA {
+        background-image:url('../img/Lettre100_a.png');
+        background-repeat: no-repeat;
+        }
+
+label#chxA {
+        background-image:url('../img/Lettre100_a.png');
+        background-repeat: no-repeat;
+        }
+label#chxB {
+        background-image:url('../img/Lettre100_b.png');
+        background-repeat: no-repeat;
+        }
+label#chxC {
+        background-image:url('../img/Lettre100_c.png');
+        background-repeat: no-repeat;
+        }
+label#chxD {
+        background-image:url('../img/Lettre100_d.png');
+        background-repeat: no-repeat;
+        }
+label#chxE {
+        background-image:url('../img/Lettre100_e.png');
+        background-repeat: no-repeat;
+        }
+label#chxF {
+        background-image:url('../img/Lettre100_f.png');
+        background-repeat: no-repeat;
+        }
+label#chxG {
+        background-image:url('../img/Lettre100_g.png');
+        background-repeat: no-repeat;
+        }
+label#chxH {
+        background-image:url('../img/Lettre100_h.png');
+        background-repeat: no-repeat;
+        }
 label:hover {
-	border-color : #DFDFDF;
+	border-color : #EFEFEF;
 	}
 
 label#compteur {
@@ -115,12 +155,14 @@ input[type="reset"] {
 }	
 
 input[type="radio"]:checked + label {
-	background-color:#990000;
+        opacity: 0.95;
+	// background-color:#990000;
 	
 }
 	
 input[type="checkbox"]:checked + label {
-	background-color:#009900;
+        opacity: 0.95;
+	// background-color:#009900;
 	
 }
 

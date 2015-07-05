@@ -14,8 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/// studentRemote.php 
-$remoteversion="15070501";
+/// studentRemote.php version 15/06/05
 
 require_once("../config.php");
 require_once("../course/lib.php");
@@ -82,8 +81,7 @@ require_once("studentBootstrap.php");
     <body>
         <div><section id="traces">
         <?php
-            echo "version $remoteversion.<br>";
-           if(false /*$continue */) {
+           if($cfini) {
             ?>
             </section></div>
             <nav><article><div>Au revoir<div></article></nav>
@@ -96,8 +94,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
-                    <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
+                    <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
 
                 </form>
                 </nav>
@@ -147,10 +146,9 @@ require_once("studentBootstrap.php");
                     </section></div>
                     <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                     <form action="" method="GET" >
-                        <input name="continue" id="continue" type="submit" value="continue"  >
-                        <label id="btnfini" for="continue" >continuer</label>
+                        <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                        <label id="btnfini" for="cfini" >continuer</label>
 
-                        <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                     </form>
                                 </nav>
             <?php
@@ -190,10 +188,8 @@ require_once("studentBootstrap.php");
             </section></div>
             <nav><article><div>Merci d'avoir voté<div></article>
             <form action="" method="GET" >
-                <input name="continue" id="continue" type="submit" value="continue"  >
-                <label id="btnfini" for="continue" >continuer</label>
-
-                <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
+                <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                <label id="btnfini" for="cfini" >continuer</label>
                 
             </form>
             
@@ -228,8 +224,8 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Aucun vote n'est ouvert<div></article>
                 <form action="" method="GET" >
-                    <input id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <input id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
@@ -268,10 +264,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
-                    <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
-                    <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
                                 </nav>
         <?php
@@ -317,19 +312,11 @@ require_once("studentBootstrap.php");
                     exit();
                 }
 
-                echo "<article><div>" . $question->name . "</div></article>";
+                echo "<article><div>" . $question->name . "<div></article>";
 
                 // chercher les choix proposées
                 if (!($choices = $DB->get_records_select('questionnaire_quest_choice', "question_id=$qid"))) {
                     exit("Aucun choix proposé dans cette question");
-                }
-                $nbchoices=count($choices);
-                if ($nbchoices < 7){
-                    $nbsauts = intval((8 - $nbchoices) / 2);
-                    // echo "nb sauts : $nbsauts.";
-                    for ($i = 1 ; $i <= $nbsauts ; $i++) {
-                        echo "$i.<br/>";
-                    }
                 }
 				?>
                 <form action="studentRemote.php" method="get"  
@@ -372,7 +359,7 @@ require_once("studentBootstrap.php");
                         onclick="validerSubmit(<?php echo $min.','.$max ?>)"
                         >
 
-                    <label id="<?php echo $cbName ?>" for="<?php echo $cbId ?>"  >&nbsp;</label>
+                    <label for="<?php echo $cbId ?>"  ><?php echo $cbValue ?></label>
                     
 <!--            </td> -->
 
@@ -385,14 +372,8 @@ require_once("studentBootstrap.php");
                     $lettre++;
                 }
 /*                    echo "</tr></table>"; */
-
-                if ($nbchoices < 8){
-                    $reste = 8 - $nbchoices - $nbsauts;
-                    for ($i=1; $i <= $reste;$i++) {
-                        echo "<br/>";
-                    }
-                }
                     ?>
+
 
 <br><br><br>
                     <input id="annuler" type="reset" name="currentq"  value="reset">
