@@ -132,7 +132,7 @@ label#cancel {
 	margin-right : 200px;
         }
 label#valid {
-        background-image:url('../img/valid72.png');
+        background-image:url('../img/invalid72.png');
         background-repeat: no-repeat;
         }
 label:hover {

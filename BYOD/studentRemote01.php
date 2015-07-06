@@ -52,15 +52,15 @@ require_once("studentBootstrap.php");
 		function validerSubmit(min,max) {
 			var nb = compterReponses();
 			if ((nb >= min) && (nb <= max)) {
-				document.getElementById("valid").style.backgroundImage = "url('../img/valid72.png')";
-				document.getElementById("valid").style.background = "green";
+				document.getElementById("valid").style.backgroundImage = "url('img/valid72.png')";
+				// document.getElementById("valid").style.background = "green";
 			}
 			else {
-				document.getElementById("valid").style.backgroundImage = "url('../img/invalid72.png')";
-				document.getElementById("valid").style.backgroundImage = "orange";
+				document.getElementById("valid").style.backgroundImage = "url('img/invalid72.png')";
+				// document.getElementById("valid").style.background = "orange";
 			}
 
-			document.getElementById("valid").innerHTML=nb.toString();
+			//document.getElementById("valid").innerHTML=nb.toString();
 		}
 		
 		function validerForm(min,max) {
