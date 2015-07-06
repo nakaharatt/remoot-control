@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /// studentRemote01.php 
-$remoteversion="15070502";
+$remoteversion="15070601";
 
 require_once("../config.php");
 require_once("../course/lib.php");

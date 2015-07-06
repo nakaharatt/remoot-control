@@ -11,14 +11,16 @@ and open the template in the editor.
 
 section#traces {
     // pour la prod visibility : hidden;
-    visibility : visible; 
-    display : block;
+    // visibility : visible; 
+    visibility : hidden; 
+    // display : block;
+    display : none;
     font-size : 0.8em;
     width : 40%;
     position : absolute;
     bottom : 5px;
     right: 5px;
-    border : dashed black 1px;
+    border : solid black 1px;
     
     
 }
