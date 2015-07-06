@@ -51,6 +51,9 @@ if ($id) {
         $message .= 'étudiant : <a href="'.$CFG->wwwroot . '/BYOD/studentRemote.php?sectionid=' . $secId.'" target="blank" >';
         $message .= $CFG->wwwroot . '/BYOD/studentRemote.php?sectionid=' . $secId;
         $message .= '</a><br/>';
+        $message .= 'étudiant (Barcelona) : <a href="'.$CFG->wwwroot . '/BYOD/studentRemote01.php?sectionid=' . $secId.'" target="blank" >';
+        $message .= $CFG->wwwroot . '/BYOD/studentRemote01.php?sectionid=' . $secId;
+        $message .= '</a><br/>';
     }
     //
 } else {
