@@ -14,8 +14,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/// studentRemote.php 
-$remoteversion="15070501";
+/// studentRemote01.php 
+$remoteversion="15070502";
 
 require_once("../config.php");
 require_once("../course/lib.php");
@@ -40,7 +40,7 @@ require_once("studentBootstrap.php");
 		}
 		
 		function compterReponses() {
-			boutons = document.getElementsByClassName("VoteBtn");
+			boutons = document.getElementsByClassName("ChxBtn");
 			var nbchx=0;
 			for (i = 0; i < boutons.length; i++) {
 				if (boutons[i].checked) {
@@ -52,13 +52,15 @@ require_once("studentBootstrap.php");
 		function validerSubmit(min,max) {
 			var nb = compterReponses();
 			if ((nb >= min) && (nb <= max)) {
-				document.getElementById("btnvoter").style.background = "green";
+				document.getElementById("valid").style.backgroundImage = "url('../img/valid72.png')";
+				document.getElementById("valid").style.background = "green";
 			}
 			else {
-				document.getElementById("btnvoter").style.background = "orange";
+				document.getElementById("valid").style.backgroundImage = "url('../img/invalid72.png')";
+				document.getElementById("valid").style.backgroundImage = "orange";
 			}
 
-			document.getElementById("compteur").innerHTML=nb.toString();
+			document.getElementById("valid").innerHTML=nb.toString();
 		}
 		
 		function validerForm(min,max) {
@@ -96,8 +98,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
+                    <br><br><br><br><br><br>
                     <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                 </form>
                 </nav>
@@ -111,8 +114,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous n'êtes pas connecté<br>Merci<div></article>
                 <form action="https://moodle-admin-qualif.parisdescartes.fr/login/index.html" method="GET" >
+                    <br><br><br><br><br><br>
                     <input name="continue" type="submit" value="continuer"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                 </form>
                 </nav>
@@ -125,8 +129,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous ne pouvez pas voter avec une connexion anonyme<br>Merci<div></article>
                 <form action="/login/index.php" method="GET" >
+                    <br><br><br><br><br><br>
                     <input name="continue" type="submit" value="continuer"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                 </form>
                                 </nav>
@@ -147,8 +152,9 @@ require_once("studentBootstrap.php");
                     </section></div>
                     <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                     <form action="" method="GET" >
+                        <br><br><br><br><br><br>
                         <input name="continue" id="continue" type="submit" value="continue"  >
-                        <label id="btnfini" for="continue" >continuer</label>
+                        <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                         <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                     </form>
@@ -190,8 +196,9 @@ require_once("studentBootstrap.php");
             </section></div>
             <nav><article><div>Merci d'avoir voté<div></article>
             <form action="" method="GET" >
-                <input name="continue" id="continue" type="submit" value="continue"  >
-                <label id="btnfini" for="continue" >continuer</label>
+            <br><br><br><br><br><br>
+            <input name="continue" id="continue" type="submit" value="continue"  >
+                <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                 <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 
@@ -228,8 +235,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Aucun vote n'est ouvert<div></article>
                 <form action="" method="GET" >
+                    <br><br><br><br><br><br>
                     <input id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
@@ -268,8 +276,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
+                    <br><br><br><br><br><br>
                     <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label class="val" id="valid" for="continue" >&nbsp;</label>
 
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
@@ -328,11 +337,11 @@ require_once("studentBootstrap.php");
                     $nbsauts = intval((8 - $nbchoices) / 2);
                     // echo "nb sauts : $nbsauts.";
                     for ($i = 1 ; $i <= $nbsauts ; $i++) {
-                        echo "$i.<br/>";
+                        echo "<br/>";
                     }
                 }
 				?>
-                <form action="studentRemote.php" method="get"  
+                <form action="studentRemote01.php" method="get"  
 					onsubmit="return validerForm(<?php echo $min.','.$max ?>)" >
 				<?php
 
@@ -366,7 +375,7 @@ require_once("studentBootstrap.php");
                     <input 
                         id="<?php echo $cbId ?>" 
                         type="checkbox" 
-                        class="VoteBtn" 
+                        class="ChxBtn" 
                         name="chx[]" 
                         value="<?php echo $choiceid ?>" 
                         onclick="validerSubmit(<?php echo $min.','.$max ?>)"
@@ -393,13 +402,11 @@ require_once("studentBootstrap.php");
                     }
                 }
                     ?>
-
-<br><br><br>
                     <input id="annuler" type="reset" name="currentq"  value="reset">
-                    <label class="val" id="btnannul" for="annuler"><small><small>correct</small></small></label>
+                    <label class="val" id="cancel" for="annuler">&nbsp;</label>
 
                     <input id="voter" name="voter" type="submit" class="VoteBtn" value="1" >
-                    <label class="val" id="btnvoter" for="voter">✓</label>
+                    <label class="val" id="valid" for="voter">&nbsp;</label>
 
 
                     <input type="hidden" name="courseid" value="<?php echo $courseid; ?>" >
