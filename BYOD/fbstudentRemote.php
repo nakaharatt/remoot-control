@@ -97,10 +97,10 @@ Select one or more answers
             if (empty($USER->id)){
             ?>
             </section></div>
-                <nav><article><div>Vous n'êtes pas connecté<br>Merci</div></article>
+                <nav><article><div>You are not connected</div></article>
                 <form action="https://moodle-admin-qualif.parisdescartes.fr/login/index.html" method="GET" >
                     <input name="continue" type="submit" value="continuer"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label id="btnfini" for="continue" >continue</label>
 
                 </form>
                 </nav>
@@ -111,10 +111,10 @@ Select one or more answers
             if ($USER->id == 1){
             ?>
             </section></div>
-                <nav><article><div>Vous ne pouvez pas voter avec une connexion anonyme<br>Merci</div></article>
+                <nav><article><div>You can't vote with anonymous connexion</div></article>
                 <form action="/login/index.php" method="GET" >
                     <input name="continue" type="submit" value="continuer"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label id="btnfini" for="continue" >continue</label>
 
                 </form>
                                 </nav>
@@ -128,15 +128,20 @@ Select one or more answers
         
             if($voter) { 
                 echo " Feedid : $feedid.<br>";
+                if (!isset($vmulti)) {
+                    echo "vmulti not defined.<br>";
+                }
+              
                 // s'il y a déjà une tentative c'est une erreur
-                $attempts = $DB->get_records_select('feedback_completed', " feedback=$feedid AND userid=$userid ");
-                if ($attempts){
+                // essai : si j'enlève le test est-ce qu'on peut voter plusieurs fois même si c'est pas prévu ?
+                // $attempts = $DB->get_records_select('feedback_completed', " feedback=$feedid AND userid=$userid ");
+                if (false AND $attempts AND ($vmulti==0)){
                 ?>
                     </section></div>
-                    <nav><article><div>Vous avez déjà participé<br>Merci</div></article>
+                    <nav><article><div>You have already voted</div></article>
                     <form action="" method="GET" >
                         <input name="continue" id="continue" type="submit" value="continue"  >
-                        <label id="btnfini" for="continue" >continuer</label>
+                        <label id="btnfini" for="continue" >continue</label>
 
                         <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                     </form>
@@ -146,8 +151,8 @@ Select one or more answers
                 } 
             $subtime = time();
             
-			// préparation d'un record feedback_completed
-			$resp=array();
+            // préparation d'un record feedback_completed
+            $resp=array();
 
             $resp['feedback'] = $feedid;
             $resp['userid'] = $userid;
@@ -173,10 +178,10 @@ Select one or more answers
 
             ?>
             </section></div>
-            <nav><article><div>Merci d'avoir voté</div></article>
+            <nav><article><div>Thanks for your vote</div></article>
             <form action="" method="GET" >
                 <input name="continue" id="continue" type="submit" value="continue"  >
-                <label id="btnfini" for="continue" >continuer</label>
+                <label id="btnfini" for="continue" >continue</label>
 
                 <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 
@@ -201,7 +206,7 @@ Select one or more answers
                     if ($cm->module == $codefeedback) {
                         // ajouter ce cm à la liste
                         $fbid = $cm->instance;
-                        echo "Questionnaire_id calculé : ".$fbid;
+                        echo "Feedback_id calculé : ".$fbid;
                         if ($cm->visible) {
                             // lets simulate form and moodle traitment
                             echo " ouvert.<br/>";
@@ -217,10 +222,10 @@ Select one or more answers
 				if ($feedid === 0) {
             ?>
             </section></div>
-                <nav><article><div>Aucun vote n'est ouvert</div></article>
+                <nav><article><div>No current vote</div></article>
                 <form action="" method="GET" >
                     <input id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <label id="btnfini" for="continue" >continue</label>
 
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
@@ -232,7 +237,7 @@ Select one or more answers
 			else {
 
 				$feedid = $runningq;
-				echo "Questionnaire_id transmis : ".$feedid."<br>";
+				echo "Feedback_id transmis : ".$feedid."<br>";
 			}
             $courseid = $course->id;
             echo "Course_id : ".$courseid."<br>";
@@ -243,17 +248,18 @@ Select one or more answers
             $feed = $DB->get_record('feedback', array('id' => $feedid), '*', MUST_EXIST);
             $feedname = $feed->name;
             echo "feedname : ".$feedname."<br>";
+            $vmulti = $feed->multiple_submit;
 
 
             // s'il y a déjà une tentative on ne peut pas voter
             $attempts = $DB->get_records_select('feedback_completed', " feedback=$feedid AND userid=$userid ");
-            if ($attempts){
+            if ($attempts AND ($vmulti==0)){
             ?>
             </section></div>
-			<nav><article><div>Vous avez déjà participé<br>Merci</div></article>
+			<nav><article><div>You have already voted</div></article>
 				<form action="" method="GET" >
 					<input name="continue" id="continue" type="submit" value="continue"  >
-					<label id="btnfini" for="continue" >continuer</label>
+					<label id="btnfini" for="continue" >continue</label>
 
 					<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
 				</form>
@@ -324,13 +330,14 @@ Select one or more answers
 
                     <br>
                     <input id="voter" name="voter" type="submit" class="VoteBtn" value="1" >
-                    <label id="btnvoter" for="voter">voter</label>
+                    <label id="btnvoter" for="voter">vote</label>
 
 
                     <br><br>
+                    <!--
                     <input id="annuler" type="reset" name="currentq"  value="reset">
-                    <label id="btnannul" for="annuler"><small><small>annuler</small></small></label>
-
+                    <label id="btnannul" for="annuler"><small><small>cancel</small></small></label>
+                    --><br>
 
                     <input type="hidden" name="courseid" value="<?php echo $courseid; ?>" >
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
