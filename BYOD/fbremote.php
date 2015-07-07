@@ -80,10 +80,10 @@ require_once("fbbootstrap.php");
 
                                     <button type="submit" name="hide" class="button-warning pure-button" value="<?php echo $module; ?>">
                                         <i class="fa fa-eye-slash"></i>
-                                        Fermer le vote</button>
+                                        Close the vote</button>
                                     <button type="submit" name="runningq" class="button-success pure-button" value="<?php echo $feedid; ?>">
                                         <i class="fa fa-stethoscope"></i>
-                                        Réponses</button>
+                                        Results</button>
 
                                 </div>
 
@@ -100,10 +100,10 @@ require_once("fbbootstrap.php");
                                     <h3><?php echo $feedname; ?></h3>
                                     <button type="submit" name="show" class="pure-button-primary pure-button"  value="<?php echo $module; ?>">
                                         <i class="fa fa-eye"></i>
-                                        Ouvrir le vote</button>
+                                        Open the vote</button>
                                     <button type="submit" name="runningq" class="button-success pure-button" value="<?php echo $feedid; ?>">
                                         <i class="fa fa-stethoscope"></i>
-                                        Réponses</button>
+                                        Results</button>
                                 </div>
 
                                 <input type="hidden" name="courseid" value="<?php echo $courseid; ?>" >
@@ -140,7 +140,7 @@ require_once("fbbootstrap.php");
                     // montrer le compteur
 
                     echo '<p align="center" ><span style="font-size : 18pt; vertical-align:middle;">';
-					echo 'Participants : ' . $anscount ;
+					echo 'Votes : ' . $anscount ;
                     
 //                    if (!empty($maxrep)) {
 //                        echo '<br/>' . $maxrep .' participants';
@@ -162,7 +162,7 @@ require_once("fbbootstrap.php");
                         $nbAttempts++;
                         $listRep[] = $attempt->userid;
                     }
-                    echo "nbAttempts : ".$nbAttempts;
+                    // echo "nbAttempts : ".$nbAttempts;
 
                     // extraire les questions du questionnaire
                     if (!($items = $DB->get_records_select('feedback_item', "feedback=$feedid AND typ LIKE 'multichoice'"))) {
@@ -177,10 +177,18 @@ require_once("fbbootstrap.php");
                         echo '<table  class="pure-table pure-table-bordered" width="95%"><tr><td colspan="3">';
                         echo "<b>" . $item->name."</b>"; // $question->name . "Question " .
                         echo "</td></tr>";
-                        echo "<tr><td> </td><td>Réponses</td><td style=\"width:13em;\">% des participants</td></tr>";
+                        echo "<tr><td> </td><td>Answers</td><td style=\"width:13em;\">% of votes</td></tr>";
 
                         // chercher les choix proposées
                         $choices = explode('|',$item->presentation);
+                        $nbchoices = count($choices);
+                        // rectifier le 1er choix
+                        if (strpos($choices[0],'>>>>>') === 1) {
+                            $choices[0]=substr($choices[0],6);
+                        }
+                        if (strpos($choices[$nbchoices-1],'<<<<<') > 0) {
+                            $choices[$nbchoices-1]=substr($choices[$nbchoices-1],0,-6);
+                        }
 
                         $choiceid=0;
                         foreach ($choices as $choicetext) {
@@ -212,7 +220,7 @@ require_once("fbbootstrap.php");
 
                                 <button type="submit" name="currentq" class="pure-button-primary pure-button" value="0">
                                     <i class="fa fa-arrow-circle-left"></i>
-                                    retour</button>
+                                    back</button>
                             </div>
 
 
