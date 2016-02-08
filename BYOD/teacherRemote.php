@@ -6,7 +6,7 @@ require_once("bootstrap.php");
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
-        <meta http-equiv="refresh" content="15">
+    <!--    <meta http-equiv="refresh" content="15">  -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title><?php echo $section->name; ?></title>

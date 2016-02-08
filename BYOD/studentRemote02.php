@@ -14,28 +14,24 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/// studentRemote.php version 15/07/01
+/// studentRemote.php version 15/06/05
 
 require_once("../config.php");
 require_once("../course/lib.php");
 require_once("studentBootstrap.php");
-
-
 ?>
-
-
 <!doctype html>
 <html >
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title><?php echo "Zappette étudiant"; ?></title>
-        <!-- <meta http-equiv="refresh" content="5">
+<!--        <meta http-equiv="refresh" content="5">
         <link rel="stylesheet" href="css/pure-min.css" />
         <link rel="stylesheet" href="css/font-awesome-min.css" />
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/remote.css" /> -->
-        <link rel="stylesheet" href="css/studentRemoteStyles.css" />
+        <link rel="stylesheet" href="css/remote.css" />  -->
+        <link rel="stylesheet" href="css/studentRemoteStyles01.css" />
 	<script>
 		function zapInit() {
 				document.getElementById("voter").style.color = "magenta";
@@ -85,7 +81,7 @@ require_once("studentBootstrap.php");
     <body>
         <div><section id="traces">
         <?php
-           if(false /*$continue */) {
+           if($cfini) {
             ?>
             </section></div>
             <nav><article><div>Au revoir<div></article></nav>
@@ -98,8 +94,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
-                    <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
+                    <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
 
                 </form>
                 </nav>
@@ -149,10 +146,9 @@ require_once("studentBootstrap.php");
                     </section></div>
                     <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                     <form action="" method="GET" >
-                        <input name="continue" id="continue" type="submit" value="continue"  >
-                        <label id="btnfini" for="continue" >continuer</label>
+                        <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                        <label id="btnfini" for="cfini" >continuer</label>
 
-                        <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                     </form>
                                 </nav>
             <?php
@@ -192,10 +188,8 @@ require_once("studentBootstrap.php");
             </section></div>
             <nav><article><div>Merci d'avoir voté<div></article>
             <form action="" method="GET" >
-                <input name="continue" id="continue" type="submit" value="continue"  >
-                <label id="btnfini" for="continue" >continuer</label>
-
-                <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
+                <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                <label id="btnfini" for="cfini" >continuer</label>
                 
             </form>
             
@@ -230,8 +224,8 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Aucun vote n'est ouvert<div></article>
                 <form action="" method="GET" >
-                    <input id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <input id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
@@ -270,10 +264,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
-                    <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label id="btnfini" for="continue" >continuer</label>
+                    <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
-                    <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
                                 </nav>
         <?php
@@ -309,11 +302,8 @@ require_once("studentBootstrap.php");
                 } else if ($qtype == 5) {
                     $tabrep = 'questionnaire_resp_multiple';
                     $min = $question->length;
-                    if ($min < 1) {$min = 1;}
                     $max = $question->precise;
-                    if ($max < $min) { $max = $min;}
-                }
-                else if ($qtype == 4) {
+                } else if ($qtype == 4) {
                     $tabrep = 'questionnaire_resp_single';
                     $min = 1;
                     $max = 1;
@@ -322,7 +312,7 @@ require_once("studentBootstrap.php");
                     exit();
                 }
 
-                echo "<article><div>" . $question->name . "</div></article>";
+                echo "<article><div>" . $question->name . "<div></article>";
 
                 // chercher les choix proposées
                 if (!($choices = $DB->get_records_select('questionnaire_quest_choice', "question_id=$qid"))) {
@@ -385,14 +375,12 @@ require_once("studentBootstrap.php");
                     ?>
 
 
-                    <br>
-                    <input id="voter" name="voter" type="submit" class="VoteBtn" value="1" >
-                    <label id="btnvoter" for="voter">voter</label>
-
-
-                    <br><br>
+<br><br><br>
                     <input id="annuler" type="reset" name="currentq"  value="reset">
-                    <label id="btnannul" for="annuler"><small><small>annuler</small></small></label>
+                    <label class="val" id="btnannul" for="annuler"><small><small>correct</small></small></label>
+
+                    <input id="voter" name="voter" type="submit" class="VoteBtn" value="1" >
+                    <label class="val" id="btnvoter" for="voter">✓</label>
 
 
                     <input type="hidden" name="courseid" value="<?php echo $courseid; ?>" >

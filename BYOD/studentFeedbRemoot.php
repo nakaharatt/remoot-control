@@ -1,38 +1,20 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-/// studentRemote01.php 
-$remoteversion="15070601";
-
 require_once("../config.php");
 require_once("../course/lib.php");
-require_once("studentBootstrap.php");
+require_once("studentFeedbBootstrap.php");
 ?>
 <!doctype html>
 <html >
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title><?php echo "Zappette étudiant"; ?></title>
+        <title><?php echo "Feedback Remoot"; ?></title>
 <!--        <meta http-equiv="refresh" content="5">
         <link rel="stylesheet" href="css/pure-min.css" />
         <link rel="stylesheet" href="css/font-awesome-min.css" />
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="css/remote.css" />  -->
-        <link rel="stylesheet" href="css/studentRemoteStyles01.css" />
+        <link rel="stylesheet" href="studentRemoteStyles.css" />
 	<script>
 		function zapInit() {
 				document.getElementById("voter").style.color = "magenta";
@@ -40,7 +22,7 @@ require_once("studentBootstrap.php");
 		}
 		
 		function compterReponses() {
-			boutons = document.getElementsByClassName("ChxBtn");
+			boutons = document.getElementsByClassName("VoteBtn");
 			var nbchx=0;
 			for (i = 0; i < boutons.length; i++) {
 				if (boutons[i].checked) {
@@ -52,15 +34,13 @@ require_once("studentBootstrap.php");
 		function validerSubmit(min,max) {
 			var nb = compterReponses();
 			if ((nb >= min) && (nb <= max)) {
-				document.getElementById("valid").style.backgroundImage = "url('img/valid72.png')";
-				// document.getElementById("valid").style.background = "green";
+				document.getElementById("btnvoter").style.background = "green";
 			}
 			else {
-				document.getElementById("valid").style.backgroundImage = "url('img/invalid72.png')";
-				// document.getElementById("valid").style.background = "orange";
+				document.getElementById("btnvoter").style.background = "orange";
 			}
 
-			//document.getElementById("valid").innerHTML=nb.toString();
+			document.getElementById("compteur").innerHTML=nb.toString();
 		}
 		
 		function validerForm(min,max) {
@@ -84,8 +64,7 @@ require_once("studentBootstrap.php");
     <body>
         <div><section id="traces">
         <?php
-            echo "version $remoteversion.<br>";
-           if(false /*$continue */) {
+           if($cfini) {
             ?>
             </section></div>
             <nav><article><div>Au revoir<div></article></nav>
@@ -98,9 +77,8 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
-                    <br><br><br><br><br><br>
-                    <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label class="val" id="valid" for="continue" >&nbsp;</label>
+                    <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
                 </form>
                 </nav>
@@ -114,9 +92,8 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous n'êtes pas connecté<br>Merci<div></article>
                 <form action="https://moodle-admin-qualif.parisdescartes.fr/login/index.html" method="GET" >
-                    <br><br><br><br><br><br>
                     <input name="continue" type="submit" value="continuer"  >
-                    <label class="val" id="valid" for="continue" >&nbsp;</label>
+                    <label id="btnfini" for="continue" >continuer</label>
 
                 </form>
                 </nav>
@@ -129,9 +106,8 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous ne pouvez pas voter avec une connexion anonyme<br>Merci<div></article>
                 <form action="/login/index.php" method="GET" >
-                    <br><br><br><br><br><br>
                     <input name="continue" type="submit" value="continuer"  >
-                    <label class="val" id="valid" for="continue" >&nbsp;</label>
+                    <label id="btnfini" for="continue" >continuer</label>
 
                 </form>
                                 </nav>
@@ -144,19 +120,34 @@ require_once("studentBootstrap.php");
         
         
             if($voter) { 
-                echo " qid=$questid";
+                echo " feedbackid=$feedbackid";
                 // s'il y a déjà une tentative c'est une erreur
-                $attempts = $DB->get_records_select('questionnaire_attempts', " qid=$questid AND userid=$userid ");
+                //$attempts = $DB->get_records_select('questionnaire_attempts', " qid=$questid AND userid=$userid ");
+/*
+                // chercher les questions du feedback
+                $fbitems = $DB->get_records_select('feedback_item', " feedback=$feedbackid AND typ LIKE 'multichoice' AND required=1 ");
+                if (!$fbitems) {
+					exit("Pas de questions active de type multichoice dans ce feedback");
+				}
+				// find  first active item
+				$itemid=-1;
+				foreach ($fbitems as $fbitem) {
+					if ($itemid=$fbitem.id) {
+						break;
+					}
+					
+				}
+*/
+                //$attempts = $DB->get_records_select('feedback_attempts', " qid=$questid AND userid=$userid ");
+                $attempts = $DB->get_records_select('feedback_complete', " feedback=$feedbackid AND userid=$userid ");
                 if ($attempts){
                 ?>
                     </section></div>
                     <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                     <form action="" method="GET" >
-                        <br><br><br><br><br><br>
-                        <input name="continue" id="continue" type="submit" value="continue"  >
-                        <label class="val" id="valid" for="continue" >&nbsp;</label>
+                        <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                        <label id="btnfini" for="cfini" >continuer</label>
 
-                        <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                     </form>
                                 </nav>
             <?php
@@ -164,7 +155,7 @@ require_once("studentBootstrap.php");
                 } 
             $subtime = time();
             
-            
+			// create fb_complete record
 
             $resp['survey_id'] = $survid;
             $resp['submitted'] = $subtime;
@@ -196,11 +187,8 @@ require_once("studentBootstrap.php");
             </section></div>
             <nav><article><div>Merci d'avoir voté<div></article>
             <form action="" method="GET" >
-            <br><br><br><br><br><br>
-            <input name="continue" id="continue" type="submit" value="continue"  >
-                <label class="val" id="valid" for="continue" >&nbsp;</label>
-
-                <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
+                <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                <label id="btnfini" for="cfini" >continuer</label>
                 
             </form>
             
@@ -208,14 +196,14 @@ require_once("studentBootstrap.php");
         else {
     
 
-            // Détermination du code du module questionnaire
-            $codeq = $DB->get_record('modules', array('name' => "questionnaire"), '*', MUST_EXIST);
-            $codequestionnaire = $codeq->id; 
+            // Détermination du code du module feedback
+            $codefb = $DB->get_record('modules', array('name' => "feedback"), '*', MUST_EXIST);
+            $codefeedback = $codefb->id; 
 
         
         
             if (empty($runningq)) {
-				$questid = 0;
+				$feedbackid = 0;
                 foreach ($modules as $module) {
                     $cm = $DB->get_record('course_modules', array('id' => $module), '*', MUST_EXIST);
                     if ($cm->module == $codequestionnaire) {
@@ -235,9 +223,8 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Aucun vote n'est ouvert<div></article>
                 <form action="" method="GET" >
-                    <br><br><br><br><br><br>
-                    <input id="continue" type="submit" value="continue"  >
-                    <label class="val" id="valid" for="continue" >&nbsp;</label>
+                    <input id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
                     <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
@@ -276,11 +263,9 @@ require_once("studentBootstrap.php");
             </section></div>
                 <nav><article><div>Vous avez déjà participé<br>Merci<div></article>
                 <form action="" method="GET" >
-                    <br><br><br><br><br><br>
-                    <input name="continue" id="continue" type="submit" value="continue"  >
-                    <label class="val" id="valid" for="continue" >&nbsp;</label>
+                    <input name="cfini" id="cfini" type="submit" value="cfini"  >
+                    <label id="btnfini" for="cfini" >continuer</label>
 
-                    <input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" >
                 </form>
                                 </nav>
         <?php
@@ -307,41 +292,26 @@ require_once("studentBootstrap.php");
  
             foreach ($questions as $question) {
                 $qid = $question->id;
+				$min = $question->length;
+				$max = $question->precise;
+                echo "<article><div>" . $question->name . "<div></article>";
 
                 // determiner le type de question
                 $qtype = $question->type_id;
-
-                if ($qtype == 99) {
-                    continue;  // saut de page
-                } else if ($qtype == 5) {
+                if ($qtype == 5) {
                     $tabrep = 'questionnaire_resp_multiple';
-                    $min = $question->length;
-                    $max = $question->precise;
                 } else if ($qtype == 4) {
                     $tabrep = 'questionnaire_resp_single';
-                    $min = 1;
-                    $max = 1;
                 } else {
-                    echo "<article><div>Type de question incorrect<div></article>";
-                    exit();
+                    exit("Type de question incorrect");
                 }
-
-                echo "<article><div>" . $question->name . "</div></article>";
 
                 // chercher les choix proposées
                 if (!($choices = $DB->get_records_select('questionnaire_quest_choice', "question_id=$qid"))) {
                     exit("Aucun choix proposé dans cette question");
                 }
-                $nbchoices=count($choices);
-                if ($nbchoices < 7){
-                    $nbsauts = intval((8 - $nbchoices) / 2);
-                    // echo "nb sauts : $nbsauts.";
-                    for ($i = 1 ; $i <= $nbsauts ; $i++) {
-                        echo "<br/>";
-                    }
-                }
 				?>
-                <form action="studentRemote01.php" method="get"  
+                <form action="studentRemote.php" method="get"  
 					onsubmit="return validerForm(<?php echo $min.','.$max ?>)" >
 				<?php
 
@@ -375,13 +345,13 @@ require_once("studentBootstrap.php");
                     <input 
                         id="<?php echo $cbId ?>" 
                         type="checkbox" 
-                        class="ChxBtn" 
+                        class="VoteBtn" 
                         name="chx[]" 
                         value="<?php echo $choiceid ?>" 
                         onclick="validerSubmit(<?php echo $min.','.$max ?>)"
                         >
 
-                    <label id="<?php echo $cbName ?>" for="<?php echo $cbId ?>"  >&nbsp;</label>
+                    <label for="<?php echo $cbId ?>"  ><?php echo $cbValue ?></label>
                     
 <!--            </td> -->
 
@@ -394,19 +364,17 @@ require_once("studentBootstrap.php");
                     $lettre++;
                 }
 /*                    echo "</tr></table>"; */
-
-                if ($nbchoices < 8){
-                    $reste = 8 - $nbchoices - $nbsauts;
-                    for ($i=1; $i <= $reste;$i++) {
-                        echo "<br/>";
-                    }
-                }
                     ?>
-                    <input id="annuler" type="reset" name="currentq"  value="reset">
-                    <label class="val" id="cancel" for="annuler">&nbsp;</label>
 
+
+                    <br>
                     <input id="voter" name="voter" type="submit" class="VoteBtn" value="1" >
-                    <label class="val" id="valid" for="voter">&nbsp;</label>
+                    <label id="btnvoter" for="voter">voter</label>
+
+
+                    <br><br>
+                    <input id="annuler" type="reset" name="currentq"  value="reset">
+                    <label id="btnannul" for="annuler"><small><small>annuler</small></small></label>
 
 
                     <input type="hidden" name="courseid" value="<?php echo $courseid; ?>" >
