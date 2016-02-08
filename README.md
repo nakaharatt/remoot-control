@@ -1,4 +1,4 @@
-# BYOD
+# BYOD pour Moodle 2.7
 
 ## Installation
 
