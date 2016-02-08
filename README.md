@@ -1,6 +1,6 @@
 # BYOD pour Moodle 2.4
 
-# Choisir la branche appropriée pour une autre version de Moodle
+Choisir la branche appropriée pour une autre version de Moodle
 
 ## Installation
 
