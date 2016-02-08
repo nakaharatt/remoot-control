@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="htmlGame.css" />
+	<script>
+		function zapInit() {
+				document.getElementById("voter").style.color = "magenta";
+				
+		}
+		function validerSubmit() {
+			boutons = document.getElementsByClassName("VoteBtn");
+			var nbchx=0;
+			for (i = 0; i < boutons.length; i++) {
+				if (boutons[i].checked) {
+					nbchx++;
+				}
+			}
+			if (nbchx == 2) {
+				document.getElementById("voter").style.color = "green";
+			}
+			else {
+				document.getElementById("voter").style.color = "red";
+			}
+
+			document.getElementById("compteur").innerHTML=nbchx.toString();
+		}
+		
+		function validerForm() {
+			var couleur = document.getElementById("voter").style.color;
+			if ( couleur == "green") {
+				return true;
+			}
+			else {	
+				alert("Faites deux choix avant de voter");
+				return false;
+			}
+		}
+	</script>
+</head>
+<nav>
+<form action="voirGame.html" method="get"  onsubmit="return validerForm()" >
+
+<input id="cb1" type="checkbox" class="VoteBtn" name="winner[]" value="A" onclick="validerSubmit()" >
+<label for="cb1"  >&Aopf;</label>
+&nbsp;
+<input id="cb2" type="checkbox" class="VoteBtn" name="winner[]" value="B"  onclick="validerSubmit()">
+<label for="cb2">&Bopf;</label>
+&nbsp;
+<input id="cb3" type="checkbox" class="VoteBtn" name="winner[]" value="C" onclick="validerSubmit()">
+<label for="cb3">&Copf;</label>
+
+<input id="cb4" type="checkbox" class="VoteBtn" name="winner[]" value="D" onclick="validerSubmit()">
+<label for="cb4">&Dopf;</label>
+&nbsp;
+<input id="cb5" type="checkbox" class="VoteBtn" name="winner[]" value="E" onclick="validerSubmit()">
+<label for="cb5">&Eopf;</label>
+&nbsp;
+<input id="cb6" type="checkbox" class="VoteBtn" name="winner[]" value="F" onclick="validerSubmit()">
+<label for="cb6">&Fopf;</label>
+
+<input id="cb7" type="checkbox" class="VoteBtn" name="winner[]" value="G" onclick="validerSubmit()">
+<label for="cb7">&Gopf;</label>
+&nbsp;
+<input id="cb8" type="checkbox" class="VoteBtn" name="winner[]" value="H" onclick="validerSubmit()">
+<label for="cb8">&Hopf;</label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<br/>
+<br/>
+
+
+<label >&Aopf;</label>
+
+<!--
+<input id="r1" type="radio" name="looser" value="A">
+<label for="r1"  >&Aopf;</label>
+&nbsp;
+<input id="r2" type="radio" name="looser" value="B">
+<label for="r2">&Bopf;</label>
+&nbsp;
+<input id="r3" type="radio" name="looser" value="C">
+<label for="r3">&Copf;</label>
+&nbsp;
+<input id="r4" type="radio" name="looser" value="D">
+<label for="r4">&Dopf;</label>
+&nbsp;
+
+<br/><br/>
+-->
+<input id="voter" type="submit" class="VoteBtn" value="Voter" >
+<label id="btnvoter" for="voter">voter</label>
+<br/>
+<input id="cancel" type="submit" value="Emergency exit" >
+</form>
+</nav>
+</html>

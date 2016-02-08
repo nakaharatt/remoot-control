@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="htmlGame.css" />
+	<script>
+		function zapInit() {
+				document.getElementById("voter").disabled = true;
+				document.getElementById("voter").style.color = "magenta";
+				alert("oui !");
+				
+		}
+		function validerSubmit() {
+			boutons = document.getElementsByClassName("VoteBtn");
+			nbchx=0;
+			for (i = 0; i < boutons.length; i++) {
+				if (boutons[i].checked) {
+					nbchx++;
+				}
+			}
+			if (nbchx == 2) {
+				delete document.getElementById("voter").disabled;
+				document.getElementById("voter").style.color = "green";
+			}
+			else {
+				document.getElementById("voter").disabled=true;
+				document.getElementById("voter").style.color = "red";
+			}
+
+			texte="voter ";
+			document.getElementById("compteur").innerHTML=texte.concat(nbchx.toString());
+		}
+		
+		function validerForm() {
+			alert("On ne peux pas valider");
+			return false;
+		}
+	</script>
+</head>
+<nav>
+<form action="voirGame.html" method="get"  onsubmit="return validerForm()" >
+
+<input id="cb1" type="checkbox" class="VoteBtn" name="winnerA" value="A" onclick="validerSubmit()" >
+
+<label for="cb1" onclick="validateSubmit()"  >&Aopf;</label>
+&nbsp;
+<input id="cb2" type="checkbox" class="VoteBtn" name="winnerB" value="B"  onclick="validateSubmit()">
+<label for="cb2">&Bopf;</label>
+&nbsp;
+<input id="cb3" type="checkbox" class="VoteBtn" name="winnerC" value="C">
+<label for="cb3" onclick="validateSubmit()">&Copf;</label>
+
+<input id="cb4" type="checkbox" class="VoteBtn" name="winnerD" value="D">
+<label for="cb4">&Dopf;</label>
+&nbsp;
+<input id="cb5" type="checkbox" class="VoteBtn" name="winnerE" value="E">
+<label for="cb5">&Eopf;</label>
+&nbsp;
+<input id="cb6" type="checkbox" class="VoteBtn" name="winnerF" value="F">
+<label for="cb6">&Fopf;</label>
+
+<input id="cb7" type="checkbox" class="VoteBtn" name="winnerG" value="G">
+<label for="cb7">&Gopf;</label>
+&nbsp;
+<input id="cb8" type="checkbox" class="VoteBtn" name="winnerH" value="H">
+<label for="cb8">&Hopf;</label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<br/>
+<br/>
+
+
+
+
+<!--
+<input id="r1" type="radio" name="looser" value="A">
+<label for="r1"  >&Aopf;</label>
+&nbsp;
+<input id="r2" type="radio" name="looser" value="B">
+<label for="r2">&Bopf;</label>
+&nbsp;
+<input id="r3" type="radio" name="looser" value="C">
+<label for="r3">&Copf;</label>
+&nbsp;
+<input id="r4" type="radio" name="looser" value="D">
+<label for="r4">&Dopf;</label>
+&nbsp;
+
+<br/><br/>
+-->
+<input id="voter" type="submit" value="Voter" disabled>
+<label id="compteur" for="voter">voter</label>
+<br/>
+<input id="cancel" type="submit" value="Emergency exit" >
+</form>
+</nav>
+</html>
