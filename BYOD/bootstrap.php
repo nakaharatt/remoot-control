@@ -14,7 +14,10 @@ $windowopened = optional_param('windowsopened', 0, PARAM_BOOL);
 
 // This page should always redirect
 $url = new moodle_url('/BYOD/remote.php');
-foreach (compact('hide', 'show', 'confirm', 'sesskey') as $key => $value) {
+// si je laisse hide et show, ça interfère avec une page course view ouverte
+// car on va renvoyer hide ou show toutes les 15 secondes
+//foreach (compact('hide', 'show', 'confirm', 'sesskey') as $key => $value) {
+foreach (compact('confirm', 'sesskey') as $key => $value) {
     if ($value !== 0) {
         $url->param($key, $value);
     }
