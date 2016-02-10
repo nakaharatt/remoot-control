@@ -1,5 +1,7 @@
 # BYOD
 
+version pour Moodle 3.0
+
 ## Installation
 
 1°) Déposer le répertoire BYOD et son contenu à la racine de votre installation Moodle
