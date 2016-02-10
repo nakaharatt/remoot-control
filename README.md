@@ -9,4 +9,14 @@
 2°) remplacer le fichier questionnaire/preview.php de votre installation Moodle
 <br>
         remoot-control/mod/questionnaire/preview.php  ->  moodle/mod/questionnaire/preview.php
+        
+
+1- Copy the BYOD folder in the install dir of Moodle
+<br>
+         remoot-control/BYOD   ->    moodle/BYOD
+        
+2- Substitute the file questionnaire/preview.php in your Moodle installation
+<br>
+        remoot-control/mod/questionnaire/preview.php  ->  moodle/mod/questionnaire/preview.php
+         
 
