@@ -16,7 +16,7 @@
 
 // This page displays a non-completable instance of questionnaire.
 
-// version pour moodle2.7
+// version pour moodle3.0
 
 require_once("../../config.php");
 require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
@@ -96,6 +96,7 @@ if ($sid) {
 $PAGE->set_url($url);
 
 $PAGE->set_context($context);
+$PAGE->set_cm($cm);   //CONTRIB-5872 - I don't know why this is needed.
 
 $questionnaire = new questionnaire($qid, $questionnaire, $course, $cm);
 
