@@ -12,3 +12,10 @@ version pour Moodle 3.0
 <br>
         remoot-control/mod/questionnaire/preview.php  ->  moodle/mod/questionnaire/preview.php
 
+1- Copy the BYOD folder in the install dir of Moodle 
+<br>
+        remoot-control/BYOD -> moodle/BYOD
+
+2- Substitute the file questionnaire/preview.php in Moodle installation 
+<br>
+        remoot-control/mod/questionnaire/preview.php -> moodle/mod/questionnaire/preview.php
