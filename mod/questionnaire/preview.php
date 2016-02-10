@@ -16,6 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /// This page displays a non-completable instance of questionnaire
 
+// version que je pensais être la 2.7 mais qui est en fait une vielle 2.4
+
 require_once("../../config.php");
 require_once($CFG->dirroot . '/mod/questionnaire/questionnaire.class.php');
 
