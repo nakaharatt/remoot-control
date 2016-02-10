@@ -16,6 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /// This page displays a non-completable instance of questionnaire
 
+
+// version pour moodle 2.4 avec variante Barcelone
+
 require_once("../../config.php");
 require_once($CFG->dirroot . '/mod/questionnaire/questionnaire.class.php');
 
