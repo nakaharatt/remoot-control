@@ -16,8 +16,6 @@
 
 // This page displays a non-completable instance of questionnaire.
 
-// version pour moodle3.0
-
 require_once("../../config.php");
 require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
@@ -27,9 +25,9 @@ $popup  = optional_param('popup', 0, PARAM_INT);
 $qid    = optional_param('qid', 0, PARAM_INT);
 $currentgroupid = optional_param('group', 0, PARAM_INT); // Groupid.
 
-// klermor
+//remoot-control
 $message = '';
-//
+
 if ($id) {
     if (! $cm = get_coursemodule_from_id('questionnaire', $id)) {
         print_error('invalidcoursemodule');
@@ -42,9 +40,9 @@ if ($id) {
     if (! $questionnaire = $DB->get_record("questionnaire", array("id" => $cm->instance))) {
         print_error('invalidcoursemodule');
     }
-
-    // klermor
-     if (!$secId = $DB->get_field('course_modules', 'section', array('id' => $id))) {
+    
+    //remoot-control
+    if (!$secId = $DB->get_field('course_modules', 'section', array('id' => $id))) {
         print_error('invalidcoursemodule');
     } else {
         $message = '<div style="border : solid 1px rgb(210,210,210); padding : 3px;" >URLs pour BYOD<br/>';
@@ -55,7 +53,7 @@ if ($id) {
         $message .= $CFG->wwwroot . '/BYOD/studentRemote.php?sectionid=' . $secId;
         $message .= '</a><br/></div><br/>';
     }
-    //
+    
 } else {
     if (! $survey = $DB->get_record("questionnaire_survey", array("id" => $sid))) {
         print_error('surveynotexists', 'questionnaire');
@@ -64,7 +62,7 @@ if ($id) {
         print_error('coursemisconf');
     }
     // Dummy questionnaire object.
-    $questionnaire = new Object();
+    $questionnaire = new stdClass();
     $questionnaire->id = 0;
     $questionnaire->course = $course->id;
     $questionnaire->name = $survey->title;
@@ -96,9 +94,13 @@ if ($sid) {
 $PAGE->set_url($url);
 
 $PAGE->set_context($context);
-$PAGE->set_cm($cm);   //CONTRIB-5872 - I don't know why this is needed.
+$PAGE->set_cm($cm);   // CONTRIB-5872 - I don't know why this is needed.
 
 $questionnaire = new questionnaire($qid, $questionnaire, $course, $cm);
+
+// Add renderer and page objects to the questionnaire object for display use.
+$questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
+$questionnaire->add_page(new \mod_questionnaire\output\previewpage());
 
 $canpreview = (!isset($questionnaire->capabilities) &&
                has_capability('mod/questionnaire:preview', context_course::instance($course->id))) ||
@@ -133,11 +135,11 @@ $PAGE->requires->js('/mod/questionnaire/module.js');
 // Print the tabs.
 
 
-echo $OUTPUT->header();
+echo $questionnaire->renderer->header();
 if (!$popup) {
     require('tabs.php');
 }
-echo $OUTPUT->heading($pq);
+$questionnaire->page->add_to_page('heading', clean_text($pq));
 
 if ($questionnaire->capabilities->printblank) {
     // Open print friendly as popup window.
@@ -152,17 +154,16 @@ if ($questionnaire->capabilities->printblank) {
     $link = new moodle_url($url);
     $action = new popup_action('click', $link, $name, $options);
     $class = "floatprinticon";
-    echo $OUTPUT->action_link($link, $linkname, $action, array('class' => $class, 'title' => $title),
-            new pix_icon('t/print', $title));
+    $questionnaire->page->add_to_page('printblank',
+        $questionnaire->renderer->action_link($link, $linkname, $action, array('class' => $class, 'title' => $title),
+            new pix_icon('t/print', $title)));
 }
-// klermor
-$questionnaire->survey_print_render($message, '', $course->id, $rid = 0, $popup);
-//$questionnaire->survey_print_render('', 'preview', $course->id, $rid = 0, $popup);
-
+$questionnaire->survey_print_render('', 'preview', $course->id, $rid = 0, $popup);
 if ($popup) {
-    echo $OUTPUT->close_window_button();
+    $questionnaire->page->add_to_page('closebutton', $questionnaire->renderer->close_window_button());
 }
-echo $OUTPUT->footer($course);
+echo $questionnaire->renderer->render($questionnaire->page);
+echo $questionnaire->renderer->footer($course);
 
 // Log this questionnaire preview.
 $context = context_module::instance($questionnaire->cm->id);
